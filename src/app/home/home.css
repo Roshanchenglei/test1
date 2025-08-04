@@ -1,0 +1,30 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+}
+
+app-header {
+  flex: 0 0 auto; /* Fixed size */
+  
+}
+
+.scroll-body {
+  flex: 1 1 auto;
+  overflow-y: auto; /* Makes body scrollable */
+  padding-left: 30px;
+  padding-right: 30px;
+  padding: 40px;
+}
+
+app-footer {
+  flex: 0 0 auto; /* Footer stays at bottom */
+  background-color: black;
+  color: white;
+
+}

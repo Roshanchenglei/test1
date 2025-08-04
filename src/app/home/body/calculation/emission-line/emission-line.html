@@ -1,0 +1,89 @@
+<div class="container">
+  <h2>Emission Line Analyzer</h2>
+
+  <!-- File Upload -->
+  <div>
+    <label for="file">Upload Spectrum File:</label>
+    <input type="file" (change)="onFileUpload($event)" />
+  </div>
+
+
+  <!-- Continuum Ranges -->
+  <div>
+    <label for="continuumRanges">Continuum Ranges (index:start:end, comma-separated):</label>
+    <input type="text" [(ngModel)]="continuumRanges" placeholder="e.g. 10:30,60:80" />
+    <button (click)="processContinuum()">Process Continuum</button>
+  </div>
+
+  <!-- Continuum Fit Results -->
+  <div *ngIf="fitStats">
+    <h3>Continuum Fit Stats</h3>
+    <ul>
+      <li>Spectral Index: {{ fitStats.spectralIndex }} ± {{ fitStats.spectralIndexError }}</li>
+      <li>Amplitude: {{ fitStats.amplitude }} ± {{ fitStats.amplitudeError }}</li>
+    </ul>
+  </div>
+
+  <!-- Continuum Plot -->
+  <div id="continuumPlot" style="width: 100%; height: 500px; margin-top: 20px;"></div>
+
+  <!-- Gaussian Parameters Input -->
+  <h3>Emission Line Fit (Double Gaussian)</h3>
+  <div class="grid">
+    <div>
+      <label>a₁ (Amplitude):</label>
+      <input type="number" [(ngModel)]="input.a1" />
+    </div>
+    <div>
+      <label>b₁ (Line-center):</label>
+      <input type="number" [(ngModel)]="input.b1" />
+    </div>
+    <div>
+      <label>c₁ (sigma):</label>
+      <input type="number" [(ngModel)]="input.c1" />
+    </div>
+    <div>
+      <label>Lower Limit value:</label>
+      <input type="number" [(ngModel)]="input.lower_limit" />
+    </div>
+    <div>
+      <label>Upper Limit value:</label>
+      <input type="number" [(ngModel)]="input.upper_limit" />
+    </div>
+    <div>
+      <label>Actual line Wavelength (Å):</label>
+      <input type="number" [(ngModel)]="input.rest_wavelength" />
+    </div>
+  </div>
+
+  <button (click)="analyze()">Analyze Emission Line</button>
+
+  <!-- Emission Line Fit Plot -->
+  <div id="emission-fit-plot" style="width: 100%; height: 500px; margin-top: 30px;"></div>
+  <!-- Output Flux, EW, FWHM -->
+  
+  <div *ngIf="analysisResults" class="results-container">
+  <h3>Emission Line Analysis</h3>
+  <table>
+    <tr><th>Parameter</th><th>Value</th></tr>
+
+    <!-- Flux -->
+    <tr><td>Flux</td><td>{{ analysisResults.fluxBroad }}</td></tr>
+    <tr><td>Flux Error</td><td>{{ analysisResults.fluxErrBroad }}</td></tr>
+
+    
+    <!-- Equivalent Width -->
+    <tr><td>EW</td><td>{{ analysisResults.ewBroad }} Å</td></tr>
+    <tr><td>EW Error</td><td>{{ analysisResults.ewErrBroad }} Å</td></tr>
+
+   
+    <!-- FWHM -->
+    <tr><td>FWHM</td><td>{{ analysisResults.fwhmKmBroad }} km/s</td></tr>
+    
+
+    <!-- Fit Quality -->
+    <tr><td>Reduced χ²</td><td>{{ analysisResults.chiSquared }}</td></tr>
+  </table>
+</div>
+  
+</div>
